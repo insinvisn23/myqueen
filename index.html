@@ -1,0 +1,234 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>For Basbosy ❤️</title>
+
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background: #000;
+    color: #ff69b4;
+    font-family: Georgia, serif;
+    overflow: hidden;
+    height: 100vh;
+}
+
+.screen {
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    padding: 25px;
+    text-align: center;
+    position: relative;
+    z-index: 2;
+}
+
+#start {
+    background: transparent;
+    color: #ff69b4;
+    border: 1px solid #ff69b4;
+    padding: 17px 40px;
+    font-size: 18px;
+    letter-spacing: 3px;
+    border-radius: 40px;
+    cursor: pointer;
+    box-shadow: 0 0 20px #ff69b455;
+}
+
+#start:hover {
+    background: #ff69b4;
+    color: black;
+}
+
+#message {
+    max-width: 800px;
+    font-size: 25px;
+    line-height: 1.8;
+    opacity: 0;
+    transition: opacity 2s ease;
+    text-shadow: 0 0 15px #ff1493;
+}
+
+#final {
+    display: none;
+    font-size: clamp(35px, 8vw, 75px);
+    font-weight: bold;
+    text-shadow: 0 0 20px #ff1493,
+                 0 0 50px #ff69b4;
+    animation: heartbeat 1.5s infinite;
+}
+
+@keyframes heartbeat {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.08); }
+}
+
+.heart {
+    position: absolute;
+    bottom: -30px;
+    color: #ff69b4;
+    font-size: 20px;
+    animation: float 8s linear forwards;
+    pointer-events: none;
+}
+
+@keyframes float {
+    to {
+        transform: translateY(-110vh) rotate(360deg);
+        opacity: 0;
+    }
+}
+
+#musicNote {
+    position: fixed;
+    bottom: 20px;
+    color: #ff69b4;
+    font-size: 13px;
+    letter-spacing: 2px;
+}
+</style>
+</head>
+
+<body>
+
+<audio id="song" src="song.mp3" loop></audio>
+
+<div class="screen">
+
+    <button id="start" onclick="begin()">
+        START OUR STORY ❤️
+    </button>
+
+    <div id="message"></div>
+
+    <div id="final">
+        I LOVE YOU<br>
+        BASBOSY ❤️
+        <div>💗 💕 💗</div>
+    </div>
+
+</div>
+
+<div id="musicNote"></div>
+
+<script>
+
+const messages = [
+
+    "Sometimes, words are not enough to explain what someone means to you...",
+
+    "And sometimes, we make mistakes without realizing how much they can hurt the person we love.",
+
+    "I know I'm not perfect. I know there were moments when I could have done better.",
+
+    "I'm sorry for every moment I made you feel sad, for every time I didn't understand you, and for every word I should have said differently.",
+
+    "But there's one thing I never want you to doubt...",
+
+    "You mean so much to me.",
+
+    "You're not just a beautiful part of my life. You're one of the reasons my ordinary days become special.",
+
+    "I love your little details, your smile, your personality, and even the little things you don't notice about yourself.",
+
+    "I don't promise to be perfect, but I promise to keep learning, understanding, and trying to make things better.",
+
+    "If I could replay our story, I would still choose to meet you, know you, and create all those beautiful memories with you.",
+
+    "And if this were a movie, I wouldn't want this to be the ending...",
+
+    "Because my favorite part of the story is still having you in it.",
+
+    "So, before the credits roll... there's just one thing left to say."
+
+];
+
+let index = 0;
+
+async function begin() {
+
+    document.getElementById("start").style.display = "none";
+
+    const song = document.getElementById("song");
+    song.volume = 0.5;
+
+    try {
+        await song.play();
+    } catch (error) {
+        console.log("Music could not start.");
+    }
+
+    document.getElementById("musicNote").innerText =
+        "♪ OUR SONG IS PLAYING ♪";
+
+    showMessage();
+
+    setInterval(createHeart, 500);
+}
+
+function showMessage() {
+
+    const msg = document.getElementById("message");
+
+    if (index >= messages.length) {
+        msg.style.opacity = 0;
+
+        setTimeout(() => {
+            msg.style.display = "none";
+            document.getElementById("final").style.display = "block";
+        }, 2000);
+
+        return;
+    }
+
+    msg.style.opacity = 0;
+
+    setTimeout(() => {
+        msg.innerText = messages[index];
+        msg.style.opacity = 1;
+
+        index++;
+
+        setTimeout(() => {
+            msg.style.opacity = 0;
+
+            setTimeout(showMessage, 2000);
+
+        }, 4500);
+
+    }, 2000);
+}
+
+function createHeart() {
+
+    const heart = document.createElement("div");
+
+    heart.className = "heart";
+    heart.innerHTML = ["❤️", "💕", "💗", "♡"][
+        Math.floor(Math.random() * 4)
+    ];
+
+    heart.style.left = Math.random() * 100 + "vw";
+    heart.style.animationDuration =
+        (5 + Math.random() * 5) + "s";
+
+    document.body.appendChild(heart);
+
+    setTimeout(() => heart.remove(), 10000);
+}
+
+</script>
+
+</body>
+</html>
+
